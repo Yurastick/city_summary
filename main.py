@@ -1,6 +1,8 @@
 import argparse
 import sys
 
+import requests
+
 from processing.service import build_city_summary
 
 
@@ -16,7 +18,7 @@ def main() -> None:
     except ValueError as e:
         print(f"Ошибка: {e}", file=sys.stderr)
         sys.exit(3)
-    except Exception as e:
+    except requests.RequestException as e:
         print(f"Ошибка внешнего сервиса: {e}", file=sys.stderr)
         sys.exit(4)
 

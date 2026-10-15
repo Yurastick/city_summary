@@ -20,7 +20,7 @@ def get_weather(city: str) -> dict:
         "latitude": lat,
         "longitude": lon,
         "current": "temperature_2m,weather_code",
-        "timezone": "auto"
+        "timezone": "auto",
     }
 
     weather_response = get_with_retry(weather_url, params=weather_params)
@@ -31,13 +31,25 @@ def get_weather(city: str) -> dict:
         raise ValueError("Не удалось получить данные о погоде")
 
     weather_codes = {
-        0: "clear sky", 1: "mainly clear", 2: "partly cloudy", 3: "overcast",
-        45: "fog", 48: "depositing rime fog", 51: "light drizzle", 53: "moderate drizzle",
-        55: "dense drizzle", 61: "slight rain", 63: "moderate rain", 65: "heavy rain",
-        71: "slight snow", 73: "moderate snow", 75: "heavy snow", 95: "thunderstorm"
+        0: "clear sky",
+        1: "mainly clear",
+        2: "partly cloudy",
+        3: "overcast",
+        45: "fog",
+        48: "depositing rime fog",
+        51: "light drizzle",
+        53: "moderate drizzle",
+        55: "dense drizzle",
+        61: "slight rain",
+        63: "moderate rain",
+        65: "heavy rain",
+        71: "slight snow",
+        73: "moderate snow",
+        75: "heavy snow",
+        95: "thunderstorm",
     }
 
     return {
         "temp_c": current["temperature_2m"],
-        "description": weather_codes.get(current["weather_code"], "unknown")
+        "description": weather_codes.get(current["weather_code"], "unknown"),
     }

@@ -1,9 +1,12 @@
 import time
+
 import requests
-from requests.exceptions import Timeout, ConnectionError
+from requests.exceptions import ConnectionError, Timeout
 
 
-def get_with_retry(url: str, params: dict = None, retries: int = 2, timeout: int = 10) -> requests.Response:
+def get_with_retry(
+    url: str, params: dict | None = None, retries: int = 2, timeout: int = 10
+) -> requests.Response:
     """Выполняет GET-запрос с повторами при временных ошибках."""
     for attempt in range(retries + 1):
         try:
@@ -26,10 +29,10 @@ def get_with_retry(url: str, params: dict = None, retries: int = 2, timeout: int
             response.raise_for_status()
             return response
 
-        except (Timeout, ConnectionError) as e:
+        except (Timeout, ConnectionError):
             if attempt < retries:
                 time.sleep(1)
                 continue
-            raise e
+            raise
 
     raise RuntimeError("Не удалось выполнить запрос после всех попыток")

@@ -1,6 +1,6 @@
-from clients.weather import get_weather
 from clients.rates import get_rate
-from processing.preprocessing import process_weather, process_rate
+from clients.weather import get_weather
+from processing.preprocessing import process_rate, process_weather
 
 
 def build_city_summary(city: str, currency: str = "USD") -> dict:
@@ -9,13 +9,6 @@ def build_city_summary(city: str, currency: str = "USD") -> dict:
     rate_raw = get_rate(currency)
 
     weather_processed = process_weather(weather_raw)
-    rate_processed = process_rate({
-        "currency": currency,
-        "rate_to_rub": rate_raw
-    })
+    rate_processed = process_rate({"currency": currency, "rate_to_rub": rate_raw})
 
-    return {
-        "city": city,
-        "weather": weather_processed,
-        "rates": rate_processed
-    }
+    return {"city": city, "weather": weather_processed, "rates": rate_processed}
